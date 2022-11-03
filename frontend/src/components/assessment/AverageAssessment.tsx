@@ -5,7 +5,7 @@ import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
 import { Paper, ThemeIcon, Title } from "@mantine/core";
 import { IconChartRadar } from "@tabler/icons";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 
 interface Props {
@@ -21,11 +21,18 @@ export const AverageAssessment = (props: Props) => {
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const perspectives = pollDetail?.perspectives || [];
   console.log({ perspectives });
-  const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
-  console.log({ averageAccessment });
+  const [averageAccessment, setAverageAccessment] = useState<
+    {
+      perspective: string;
+      Point: number;
+    }[]
+  >();
   useEffect(() => {
     loadCurrentMaxPoll();
-  }, []);
+    if (perspectives.length > 0) {
+      setAverageAccessment(getAverageAssessment(assessments, perspectives, props.address, daoHistory));
+    }
+  }, [assessments, perspectives, props.address, daoHistory]);
 
   return (
     <>
@@ -36,7 +43,7 @@ export const AverageAssessment = (props: Props) => {
         {AverageAssessmentTitle}
       </Title>
       <Paper mt="xs" style={{ height: 310 }}>
-        <AssessmentRadar data={averageAccessment} />
+        <AssessmentRadar data={averageAccessment ?? []} />
       </Paper>
     </>
   );
