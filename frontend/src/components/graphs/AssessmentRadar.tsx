@@ -48,10 +48,7 @@ export const AssessmentRadar = ({ data }: Props) => {
 };
 
 const RadarSliceTooltip = ({ index, data }: RadarSliceTooltipProps) => {
-  const rows = useMemo(
-    () => data.map((datum) => [<Chip key={datum.id} color={datum.color} />, datum.id, datum.formattedValue]),
-    [data]
-  );
+  const rows = data.map((datum) => [<Chip key={datum.id} color={datum.color} />, datum.id, datum.formattedValue]);
 
   return <TableTooltip title={<strong>{index}</strong>} rows={rows} />;
 };
