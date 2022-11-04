@@ -1,7 +1,8 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/radar
-import { Button, Text } from "@mantine/core";
-import { ResponsiveRadar } from "@nivo/radar";
+import { TableTooltip, Chip } from "@nivo/tooltip";
+import { RadarSliceTooltipProps, ResponsiveRadar } from "@nivo/radar";
+import { useMemo } from "react";
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -41,6 +42,16 @@ export const AssessmentRadar = ({ data }: Props) => {
           symbolShape: "circle",
         },
       ]}
+      sliceTooltip={RadarSliceTooltip}
     />
   );
+};
+
+const RadarSliceTooltip = ({ index, data }: RadarSliceTooltipProps) => {
+  const rows = useMemo(
+    () => data.map((datum) => [<Chip key={datum.id} color={datum.color} />, datum.id, datum.formattedValue]),
+    [data]
+  );
+
+  return <TableTooltip title={<strong>{index}</strong>} rows={rows} />;
 };

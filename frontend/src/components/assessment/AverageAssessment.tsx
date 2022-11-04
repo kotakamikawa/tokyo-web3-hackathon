@@ -27,12 +27,6 @@ export const AverageAssessment = (props: Props) => {
     loadCurrentMaxPoll();
   }, []);
 
-  const data = [
-    { perspective: "技術的難易度", Point: 2.5 },
-    { perspective: "DAOへの影響", Point: 2.17 },
-    { perspective: "仕事量", Point: 6 },
-  ];
-
   return (
     <>
       <Title mt="md" size="h3">
@@ -42,7 +36,7 @@ export const AverageAssessment = (props: Props) => {
         {AverageAssessmentTitle}
       </Title>
       <Paper mt="xs" style={{ height: 310 }}>
-        <AssessmentRadar data={data} />
+        <AssessmentRadar data={averageAccessment} />
       </Paper>
     </>
   );
